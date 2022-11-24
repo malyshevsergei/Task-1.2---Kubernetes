@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dhw
+  labels:
+    app: dhw
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: dhw1
+
+  template:
+    metadata:
+      labels:
+        app: dhw1
+
+    spec:
+      containers:
+      - name: dhw
+        image: crccheck/hello-world
+        ports:
+          - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dhw-service
+spec:
+  selector: 
+    app: dhw1
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
